@@ -1,0 +1,26 @@
+package coreJava;
+
+public class LoopStudy {
+
+    public static void main(String[] args) {
+
+        System.out.println(1);
+        System.out.println(2);
+
+        int i;
+        for (i = 1; i <= 100; ++i) {
+            System.out.println(i);
+            // Loop breaks when i reaches 101 (the loop runs from 1 to 100)
+        }
+
+        System.out.println("i is: " + i);
+
+        System.out.println("**************************");
+
+        for (i = 0; i < 100; i++) {
+            System.out.println(1 + 1);
+        }
+
+        System.out.println("i is: " + i);
+    }
+}
