@@ -1,0 +1,40 @@
+package corejava;
+
+class Car {
+    String name;
+    String color;
+    int year;
+    int maxSpeed;
+
+    void accelerate() {
+        System.out.println("Car is accelerating");
+    }
+}
+
+public class CarStudy {
+    public static void main(String[] args) {
+        Car polo = new Car(); // Local reference variable stands in Stack Memory
+
+        // Printing uninitialized attributes of the Car object (will print default values)
+        System.out.println(polo.name); // null
+        System.out.println(polo.color); // null
+        System.out.println(polo.year); // 0
+        System.out.println(polo.maxSpeed); // 0
+
+        // Initializing the Car object's attributes
+        polo.name = "Polo";
+        polo.color = "Red";
+        polo.year = 2016;
+        polo.maxSpeed = 120;
+
+        // Printing the initialized attributes of the Car object
+        System.out.println(polo.name); // Polo
+        System.out.println(polo.color); // Red
+        System.out.println(polo.year); // 2016
+        System.out.println(polo.maxSpeed); // 120
+
+        // Calling the accelerate method
+        polo.accelerate(); // Car is accelerating
+    }
+}
+
