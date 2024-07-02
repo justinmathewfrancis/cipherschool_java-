@@ -1,0 +1,27 @@
+package banking;
+
+public class PolymorphismDemo {
+    public static void main(String[] args) {
+        // Array of Account references
+        Account[] accounts = new Account[3];
+
+        // Creating instances of different account types
+        accounts[0] = new SavingsAccount("John Doe", 1000, 2.5);
+        accounts[1] = new CheckingAccount("Jane Smith", 2000, 1.5);
+        accounts[2] = new Account("Mark Johnson", 3000);
+
+        // Demonstrating polymorphism and method overriding
+        for (Account account : accounts) {
+            account.displayAccountInfo();
+            System.out.println();
+        }
+
+        // Specific operation for CheckingAccount
+        if (accounts[1] instanceof CheckingAccount) {
+            CheckingAccount checkingAccount = (CheckingAccount) accounts[1];
+            checkingAccount.deductFee();
+            System.out.println("After deducting transaction fee:");
+            checkingAccount.displayAccountInfo();
+        }
+    }
+}
