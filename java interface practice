@@ -1,0 +1,59 @@
+interface Payment{
+    void pay(double amount);
+}
+class Googlepay implements Payment{
+    private int upinumber;
+    private String upid;
+    
+    public Googlepay(int upinumber,String upid){
+        this.upinumber=upinumber;
+        this.upid=upid;
+        
+    }
+    @Override
+    public void pay(double amount){
+        System.out.println("Paying "+amount+" using your gpay account");
+        
+    }
+    
+}
+class Creditcardpay implements Payment{
+    private String cardholder;
+    private String  cardnumber;
+    
+    public Creditcardpay(String cardholder,String cardnumber){
+        this.cardholder=cardholder;
+        this.cardnumber=cardnumber;
+        
+    }
+    @Override
+    public void pay(double amount){
+        System.out.println("Paying " + amount + "  using your card" );
+        
+    }
+}
+class Banktranscation implements Payment{
+    private int banknumber;
+    
+    public Banktranscation(int banknumber){
+        this.banknumber=banknumber;
+    
+    }
+    @Override
+    public void pay(double amount){
+        System.out.println("Paying " + amount+"  using your account via NEFT");
+    }
+}
+
+public class Transca{
+    public static void main(String[]args){
+        Payment payment1 = new Googlepay(122451,"justin@1234");
+        Payment payment2 = new Creditcardpay("justin","a1b2c3");
+        Payment payment3 = new Banktranscation(102254);
+        
+        payment1.pay(100.00);
+        payment2.pay(500.00);
+        payment3.pay(700.00);
+        
+    }
+}
