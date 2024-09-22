@@ -1,0 +1,158 @@
+class Contact {
+    String name;
+    String phoneNumber;
+    String email;
+
+    public Contact(String name, String phoneNumber, String email) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Phone: " + phoneNumber + ", Email: " + email;
+    }
+}
+class BSTNode {
+    Contact contact;  // Data (contact) stored in the node
+    BSTNode left, right;  // Pointers to the left and right children
+
+    public BSTNode(Contact contact) {
+        this.contact = contact;
+        left = right = null;  // Initially, left and right are null
+    }
+}
+class ContactBST {
+    private BSTNode root;  // Root of the BST
+
+    public ContactBST() {
+        root = null;  // Initialize the tree as empty
+    }
+
+    // 3.1 Insert Method:
+    public void insert(Contact contact) {
+        root = insertRec(root, contact);
+    }
+
+    private BSTNode insertRec(BSTNode root, Contact contact) {
+        // If the subtree is empty, insert the new contact here
+        if (root == null) {
+            root = new BSTNode(contact);
+            return root;
+        }
+
+        // Recursive comparisons to place the new contact in the correct subtree
+        if (contact.name.compareTo(root.contact.name) < 0) {
+            root.left = insertRec(root.left, contact);  // Insert in the left subtree
+        } else if (contact.name.compareTo(root.contact.name) > 0) {
+            root.right = insertRec(root.right, contact);  // Insert in the right subtree
+        }
+
+        return root;  // Return the (unchanged) node pointer
+    }
+
+    // 3.2 Search Method:
+    public Contact search(String name) {
+        return searchRec(root, name);
+    }
+
+    private Contact searchRec(BSTNode root, String name) {
+        // Base case: either root is null or name is found
+        if (root == null || root.contact.name.equals(name)) {
+            return root != null ? root.contact : null;
+        }
+
+        // Recursively search in the left or right subtree based on comparison
+        if (root.contact.name.compareTo(name) > 0) {
+            return searchRec(root.left, name);  // Search in the left subtree
+        }
+
+        return searchRec(root.right, name);  // Search in the right subtree
+    }
+
+    // 3.3 Delete Method:
+    public void delete(String name) {
+        root = deleteRec(root, name);
+    }
+
+    private BSTNode deleteRec(BSTNode root, String name) {
+        // Base case: tree is empty
+        if (root == null) {
+            return root;
+        }
+
+        // Recursively find the node to delete
+        if (name.compareTo(root.contact.name) < 0) {
+            root.left = deleteRec(root.left, name);  // Delete from the left subtree
+        } else if (name.compareTo(root.contact.name) > 0) {
+            root.right = deleteRec(root.right, name);  // Delete from the right subtree
+        } else {
+            // Node with only one child or no child
+            if (root.left == null) {
+                return root.right;
+            } else if (root.right == null) {
+                return root.left;
+            }
+
+            // Node with two children: get the inorder successor (smallest in the right subtree)
+            root.contact = minValue(root.right);
+            root.right = deleteRec(root.right, root.contact.name);  // Delete the inorder successor
+        }
+
+        return root;  // Return the (potentially modified) root
+    }
+
+    // Helper function to find the minimum value in the subtree
+    private Contact minValue(BSTNode root) {
+        Contact minv = root.contact;
+        while (root.left != null) {
+            minv = root.left.contact;
+            root = root.left;
+        }
+        return minv;
+    }
+
+    // 3.4 Inorder Traversal:
+    public void inorder() {
+        inorderRec(root);
+    }
+
+    private void inorderRec(BSTNode root) {
+        if (root != null) {
+            inorderRec(root.left);  // Visit the left subtree
+            System.out.println(root.contact);  // Print the current node (contact)
+            inorderRec(root.right);  // Visit the right subtree
+        }
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        ContactBST contactBST = new ContactBST();
+
+        // Inserting contacts into the BST
+        contactBST.insert(new Contact("Amal", "1234567890", "amal@123.com"));
+        contactBST.insert(new Contact("Pranav", "2345678981", "pranav@456.com"));
+        contactBST.insert(new Contact("Austin", "3456789012", "austin@789.com"));
+
+        // Printing all contacts in the BST using in-order traversal
+        System.out.println("Contacts in BST (in-order):");
+        contactBST.inorder();
+
+        // Searching for a contact
+        System.out.println("\nSearching for Pranav:");
+        Contact searchResult = contactBST.search("Pranav");
+        if (searchResult != null) {
+            System.out.println("Found: " + searchResult);
+        } else {
+            System.out.println("Pranav not found.");
+        }
+
+        // Deleting a contact and printing the updated list
+        System.out.println("\nDeleting Amal:");
+        contactBST.delete("Amal");
+
+        System.out.println("Contacts in BST (in-order) after deletion:");
+        contactBST.inorder();
+    }
+}
